@@ -19,3 +19,32 @@
 **/.phpunit.result.cache
 **/node_modules/
 **/vendor/
+
+# JetBrains IDEs
+**/.idea/
+**/*.iml
+**/*.ipr
+**/*.iws
+
+# Visual Studio Code
+**/.vscode/
+**/*.code-workspace
+
+# Cursor
+**/.cursor/
+**/.cursorignore
+**/.cursorindexingignore
+
+# Antigravity
+**/.antigravity/
+
+# Common editor state
+**/.project
+**/.settings/
+**/.history/
+**/.fleet/
+**/.nova/
+**/.zed/
+**/*~
+**/*.swp
+**/*.swo
