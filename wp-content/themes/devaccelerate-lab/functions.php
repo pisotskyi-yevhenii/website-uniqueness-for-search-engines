@@ -23,6 +23,7 @@ final class DevAccelerate_Theme {
 		add_filter( 'the_generator', '__return_empty_string' );
 		add_filter( 'nav_menu_link_attributes', array( __CLASS__, 'disable_placeholder_links' ), 10, 4 );
 		add_filter( 'acf/load_field_groups', array( __CLASS__, 'filter_field_groups' ), 30 );
+		add_filter( 'acf/pre_update_field_group', array( __CLASS__, 'assign_field_group_owner' ), 20 );
 		add_action( 'pre_get_posts', array( __CLASS__, 'filter_field_group_admin_list' ) );
 		add_action( 'load-post.php', array( __CLASS__, 'block_foreign_field_group_edit' ) );
 		add_action( 'after_switch_theme', array( __CLASS__, 'provision_demo' ) );
@@ -118,7 +119,50 @@ final class DevAccelerate_Theme {
 	}
 
 	/**
-	 * Keep the other product field group out of ACF runtime screens.
+	 * Assign newly created or edited groups to this product.
+	 *
+	 * @param array $field_group Field group data.
+	 * @return array
+	 */
+	public static function assign_field_group_owner( $field_group ) {
+		$field_group['theme_owner'] = 'devaccelerate-lab';
+
+		return $field_group;
+	}
+
+	/**
+	 * Resolve a field group owner from stored metadata or its legacy key prefix.
+	 *
+	 * @param array|WP_Post $field_group Field group data.
+	 * @return string
+	 */
+	public static function field_group_owner( $field_group ) {
+		if ( $field_group instanceof WP_Post ) {
+			$stored = maybe_unserialize( $field_group->post_content );
+			$owner  = is_array( $stored ) ? ( $stored['theme_owner'] ?? '' ) : '';
+			$key    = $field_group->post_name;
+		} else {
+			$owner = $field_group['theme_owner'] ?? '';
+			$key   = $field_group['key'] ?? '';
+		}
+
+		if ( $owner ) {
+			return sanitize_key( $owner );
+		}
+
+		if ( 0 === strpos( $key, 'group_devaccelerate_' ) ) {
+			return 'devaccelerate-lab';
+		}
+
+		if ( 0 === strpos( $key, 'group_vibestart_' ) ) {
+			return 'vibestart-academy';
+		}
+
+		return 'global';
+	}
+
+	/**
+	 * Keep groups owned by other products out of ACF runtime screens.
 	 *
 	 * @param array[] $field_groups Loaded ACF field groups.
 	 * @return array[]
@@ -128,7 +172,7 @@ final class DevAccelerate_Theme {
 			array_filter(
 				$field_groups,
 				static function ( $field_group ) {
-					return 'group_vibestart_home_showcase' !== ( $field_group['key'] ?? '' );
+					return in_array( self::field_group_owner( $field_group ), array( 'devaccelerate-lab', 'global' ), true );
 				}
 			)
 		);
@@ -144,17 +188,19 @@ final class DevAccelerate_Theme {
 			return;
 		}
 
-		$foreign_group_ids = get_posts(
+		$field_groups = get_posts(
 			array(
 				'post_type'      => 'acf-field-group',
 				'post_status'    => array( 'publish', 'acf-disabled', 'trash' ),
 				'posts_per_page' => -1,
-				'fields'         => 'ids',
-				'name'           => 'group_vibestart_home_showcase',
 			)
 		);
-		if ( ! $foreign_group_ids ) {
-			return;
+
+		$foreign_group_ids = array();
+		foreach ( $field_groups as $field_group ) {
+			if ( ! in_array( self::field_group_owner( $field_group ), array( 'devaccelerate-lab', 'global' ), true ) ) {
+				$foreign_group_ids[] = (int) $field_group->ID;
+			}
 		}
 
 		$excluded = array_filter( array_map( 'absint', (array) $query->get( 'post__not_in' ) ) );
@@ -168,7 +214,7 @@ final class DevAccelerate_Theme {
 		$post_id = filter_input( INPUT_GET, 'post', FILTER_VALIDATE_INT );
 		$post    = $post_id ? get_post( $post_id ) : null;
 
-		if ( $post instanceof WP_Post && 'acf-field-group' === $post->post_type && 'group_vibestart_home_showcase' === $post->post_name ) {
+		if ( $post instanceof WP_Post && 'acf-field-group' === $post->post_type && ! in_array( self::field_group_owner( $post ), array( 'devaccelerate-lab', 'global' ), true ) ) {
 			wp_safe_redirect( admin_url( 'edit.php?post_type=acf-field-group' ) );
 			exit;
 		}

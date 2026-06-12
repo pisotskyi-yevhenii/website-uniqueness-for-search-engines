@@ -431,6 +431,7 @@
         "the_content"
     ],
     "active": true,
+    "theme_owner": "devaccelerate-lab",
     "description": "All editable home, header, and footer content for the engineering AI learning product.",
     "show_in_rest": 0,
     "modified": 1781275200

@@ -302,6 +302,7 @@
         "the_content"
     ],
     "active": true,
+    "theme_owner": "vibestart-academy",
     "description": "All editable home, header, and footer content for the beginner AI learning product.",
     "show_in_rest": 0,
     "modified": 1781269200

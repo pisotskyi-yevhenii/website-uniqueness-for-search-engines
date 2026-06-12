@@ -14,6 +14,7 @@ define( 'VIBESTART_ACADEMY_CONTENT_VERSION', '2.0.0' );
 
 add_action( 'after_setup_theme', 'vibestart_academy_setup', 20 );
 add_filter( 'acf/load_field_groups', 'vibestart_academy_filter_field_groups', 30 );
+add_filter( 'acf/pre_update_field_group', 'vibestart_academy_assign_field_group_owner', 20 );
 add_action( 'pre_get_posts', 'vibestart_academy_filter_field_group_admin_list' );
 add_action( 'load-post.php', 'vibestart_academy_block_foreign_field_group_edit' );
 
@@ -46,7 +47,50 @@ function vibestart_academy_setup() {
 }
 
 /**
- * Keep the other product field group out of ACF runtime screens.
+ * Assign newly created or edited groups to this product.
+ *
+ * @param array $field_group Field group data.
+ * @return array
+ */
+function vibestart_academy_assign_field_group_owner( $field_group ) {
+	$field_group['theme_owner'] = 'vibestart-academy';
+
+	return $field_group;
+}
+
+/**
+ * Resolve a field group owner from stored metadata or its legacy key prefix.
+ *
+ * @param array|WP_Post $field_group Field group data.
+ * @return string
+ */
+function vibestart_academy_field_group_owner( $field_group ) {
+	if ( $field_group instanceof WP_Post ) {
+		$stored = maybe_unserialize( $field_group->post_content );
+		$owner  = is_array( $stored ) ? ( $stored['theme_owner'] ?? '' ) : '';
+		$key    = $field_group->post_name;
+	} else {
+		$owner = $field_group['theme_owner'] ?? '';
+		$key   = $field_group['key'] ?? '';
+	}
+
+	if ( $owner ) {
+		return sanitize_key( $owner );
+	}
+
+	if ( 0 === strpos( $key, 'group_vibestart_' ) ) {
+		return 'vibestart-academy';
+	}
+
+	if ( 0 === strpos( $key, 'group_devaccelerate_' ) ) {
+		return 'devaccelerate-lab';
+	}
+
+	return 'global';
+}
+
+/**
+ * Keep groups owned by other products out of ACF runtime screens.
  *
  * @param array[] $field_groups Loaded ACF field groups.
  * @return array[]
@@ -56,7 +100,7 @@ function vibestart_academy_filter_field_groups( $field_groups ) {
 		array_filter(
 			$field_groups,
 			static function ( $field_group ) {
-				return 'group_devaccelerate_home_feature_panel' !== ( $field_group['key'] ?? '' );
+				return in_array( vibestart_academy_field_group_owner( $field_group ), array( 'vibestart-academy', 'global' ), true );
 			}
 		)
 	);
@@ -72,17 +116,19 @@ function vibestart_academy_filter_field_group_admin_list( $query ) {
 		return;
 	}
 
-	$foreign_group_ids = get_posts(
+	$field_groups = get_posts(
 		array(
 			'post_type'      => 'acf-field-group',
 			'post_status'    => array( 'publish', 'acf-disabled', 'trash' ),
 			'posts_per_page' => -1,
-			'fields'         => 'ids',
-			'name'           => 'group_devaccelerate_home_feature_panel',
 		)
 	);
-	if ( ! $foreign_group_ids ) {
-		return;
+
+	$foreign_group_ids = array();
+	foreach ( $field_groups as $field_group ) {
+		if ( ! in_array( vibestart_academy_field_group_owner( $field_group ), array( 'vibestart-academy', 'global' ), true ) ) {
+			$foreign_group_ids[] = (int) $field_group->ID;
+		}
 	}
 
 	$excluded = array_filter( array_map( 'absint', (array) $query->get( 'post__not_in' ) ) );
@@ -96,7 +142,7 @@ function vibestart_academy_block_foreign_field_group_edit() {
 	$post_id = filter_input( INPUT_GET, 'post', FILTER_VALIDATE_INT );
 	$post    = $post_id ? get_post( $post_id ) : null;
 
-	if ( $post instanceof WP_Post && 'acf-field-group' === $post->post_type && 'group_devaccelerate_home_feature_panel' === $post->post_name ) {
+	if ( $post instanceof WP_Post && 'acf-field-group' === $post->post_type && ! in_array( vibestart_academy_field_group_owner( $post ), array( 'vibestart-academy', 'global' ), true ) ) {
 		wp_safe_redirect( admin_url( 'edit.php?post_type=acf-field-group' ) );
 		exit;
 	}
