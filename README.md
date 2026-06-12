@@ -10,13 +10,29 @@ This repository contains two independent GeneratePress child themes created for 
 
 Both themes use the same educational domain but target different audiences:
 
-- **VibeStart Academy** teaches complete beginners how to build simple projects with AI tools without a traditional coding background.
 - **DevAccelerate Lab** teaches working developers how to select, constrain, review, and integrate AI tools into professional development workflows.
+- **VibeStart Academy** teaches complete beginners how to build simple projects with AI tools without a traditional coding background.
+
+Links to 2 websites
+
+1) **DevAccelerate Lab**
+	https://fast-team.s6-tastewp.com
+	https://fast-team.s6-tastewp.com/wp-admin/
+	
+	U: admin-ai
+	P: admin-ai
+
+2) **VibeStart Academy**	
+	https://vibestartacadem.s2-tastewp.com
+	https://vibestartacadem.s2-tastewp.com/wp-admin/
+	
+	U: admin-ai
+	P: admin-ai
 
 ### Requirements
 
 - WordPress 7.0 or later
-- PHP 8.0 or later
+- PHP 8.3 or later
 - GeneratePress 3.6.1 or later
 - Advanced Custom Fields Free 6.8.4 or later
 
