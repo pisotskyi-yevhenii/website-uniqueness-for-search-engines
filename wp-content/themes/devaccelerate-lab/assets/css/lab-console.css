@@ -279,6 +279,10 @@ body.devaccelerate-engineering-console img {
 	letter-spacing: -0.04em;
 }
 
+.devaccelerate-matrix__heading > p {
+	color: var(--devaccelerate-accent);
+}
+
 .devaccelerate-matrix__list {
 	margin: 0;
 	padding: 0;
@@ -289,7 +293,7 @@ body.devaccelerate-engineering-console img {
 .devaccelerate-matrix__list li {
 	position: relative;
 	padding: 24px 0 24px 72px;
-	border-top: 1px solid var(--devaccelerate-line);
+	border-top: 1px solid var(--devaccelerate-accent);
 	counter-increment: matrix;
 }
 

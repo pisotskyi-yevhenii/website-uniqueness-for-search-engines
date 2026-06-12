@@ -54,7 +54,9 @@ $metric_two = DevAccelerate_Theme::field(
 		'devaccelerate_metric_two_label' => 'Review and control loop',
 	)
 );
-$show_matrix = (bool) DevAccelerate_Theme::field( 'devaccelerate_show_matrix', true );
+$show_matrix = function_exists( 'get_field' )
+	? (bool) get_field( 'devaccelerate_show_matrix' )
+	: true;
 $accent = sanitize_hex_color( DevAccelerate_Theme::field( 'devaccelerate_accent', '#b7ff3c' ) );
 $accent = $accent ? $accent : '#b7ff3c';
 $matrix = DevAccelerate_Theme::field(
