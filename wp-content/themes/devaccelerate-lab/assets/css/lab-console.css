@@ -52,10 +52,10 @@ body.devaccelerate-engineering-console img {
 .devaccelerate-brand-bar {
 	min-height: 116px;
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 	justify-content: center;
-	gap: 8px;
+	gap: 24px;
 	padding: 20px;
 }
 
@@ -477,6 +477,13 @@ body.devaccelerate-engineering-console img {
 }
 
 @media (max-width: 650px) {
+	.devaccelerate-brand-bar {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+		padding-inline: 24px;
+	}
+
 	.devaccelerate-brand-bar img {
 		width: 250px;
 	}
