@@ -22,6 +22,9 @@ final class DevAccelerate_Theme {
 		add_filter( 'body_class', array( __CLASS__, 'body_identity' ), 110 );
 		add_filter( 'the_generator', '__return_empty_string' );
 		add_filter( 'nav_menu_link_attributes', array( __CLASS__, 'disable_placeholder_links' ), 10, 4 );
+		add_filter( 'acf/load_field_groups', array( __CLASS__, 'filter_field_groups' ), 30 );
+		add_action( 'pre_get_posts', array( __CLASS__, 'filter_field_group_admin_list' ) );
+		add_action( 'load-post.php', array( __CLASS__, 'block_foreign_field_group_edit' ) );
 		add_action( 'after_switch_theme', array( __CLASS__, 'provision_demo' ) );
 		add_action( 'acf/init', array( __CLASS__, 'seed_panel' ), 30 );
 	}
@@ -112,6 +115,56 @@ final class DevAccelerate_Theme {
 		$classes[] = 'devaccelerate-engineering-console';
 
 		return array_unique( $classes );
+	}
+
+	/**
+	 * Keep the other product field group out of ACF runtime screens.
+	 *
+	 * @param array[] $field_groups Loaded ACF field groups.
+	 * @return array[]
+	 */
+	public static function filter_field_groups( $field_groups ) {
+		return array_values(
+			array_filter(
+				$field_groups,
+				static function ( $field_group ) {
+					return 'group_vibestart_home_showcase' !== ( $field_group['key'] ?? '' );
+				}
+			)
+		);
+	}
+
+	/**
+	 * Hide the other product field group from the ACF admin list.
+	 *
+	 * @param WP_Query $query Current WordPress query.
+	 */
+	public static function filter_field_group_admin_list( $query ) {
+		if ( ! is_admin() || ! $query->is_main_query() || 'acf-field-group' !== $query->get( 'post_type' ) ) {
+			return;
+		}
+
+		$foreign_group = get_page_by_path( 'group_vibestart_home_showcase', OBJECT, 'acf-field-group' );
+		if ( ! $foreign_group instanceof WP_Post ) {
+			return;
+		}
+
+		$excluded   = array_filter( array_map( 'absint', (array) $query->get( 'post__not_in' ) ) );
+		$excluded[] = (int) $foreign_group->ID;
+		$query->set( 'post__not_in', array_unique( $excluded ) );
+	}
+
+	/**
+	 * Prevent direct editing of the other product field group.
+	 */
+	public static function block_foreign_field_group_edit() {
+		$post_id = filter_input( INPUT_GET, 'post', FILTER_VALIDATE_INT );
+		$post    = $post_id ? get_post( $post_id ) : null;
+
+		if ( $post instanceof WP_Post && 'acf-field-group' === $post->post_type && 'group_vibestart_home_showcase' === $post->post_name ) {
+			wp_safe_redirect( admin_url( 'edit.php?post_type=acf-field-group' ) );
+			exit;
+		}
 	}
 
 	/**
