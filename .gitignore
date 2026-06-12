@@ -5,8 +5,10 @@
 
 /wp-content/*
 !/wp-content/themes/
+!/wp-content/mu-plugins/
 
 /wp-content/themes/*
+!/wp-content/mu-plugins/theme-acf-visibility.php
 !/wp-content/themes/vibestart-academy/
 !/wp-content/themes/devaccelerate-lab/
 
