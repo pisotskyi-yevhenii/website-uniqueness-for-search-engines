@@ -17,6 +17,7 @@ $devaccelerate_chrome = DevAccelerate_Theme::field(
 		'devaccelerate_skip_label'         => 'Skip to engineering workflow',
 		'devaccelerate_mobile_menu_symbol' => '[+]',
 		'devaccelerate_mobile_menu_label'  => 'Open console navigation',
+		'devaccelerate_mobile_menu_close_label' => 'Close console navigation',
 		'devaccelerate_system_state'       => 'SYSTEM: READY',
 	)
 );
@@ -42,9 +43,16 @@ $devaccelerate_header_logo = DevAccelerate_Theme::image(
 		<p><?php echo esc_html( $devaccelerate_chrome['devaccelerate_header_tagline'] ); ?></p>
 	</div>
 	<div class="devaccelerate-nav-bar">
-		<button class="devaccelerate-nav-toggle" type="button" aria-expanded="false" aria-controls="devaccelerate-console-menu">
-			<span aria-hidden="true"><?php echo esc_html( $devaccelerate_chrome['devaccelerate_mobile_menu_symbol'] ); ?></span>
-			<?php echo esc_html( $devaccelerate_chrome['devaccelerate_mobile_menu_label'] ); ?>
+		<button
+			class="devaccelerate-nav-toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="devaccelerate-console-menu"
+			data-open-label="<?php echo esc_attr( $devaccelerate_chrome['devaccelerate_mobile_menu_label'] ); ?>"
+			data-close-label="<?php echo esc_attr( $devaccelerate_chrome['devaccelerate_mobile_menu_close_label'] ); ?>"
+		>
+			<span class="devaccelerate-nav-toggle__symbol" aria-hidden="true"><?php echo esc_html( $devaccelerate_chrome['devaccelerate_mobile_menu_symbol'] ); ?></span>
+			<span class="devaccelerate-nav-toggle__label"><?php echo esc_html( $devaccelerate_chrome['devaccelerate_mobile_menu_label'] ); ?></span>
 		</button>
 		<nav class="devaccelerate-console-nav" aria-label="<?php esc_attr_e( 'Console navigation', 'devaccelerate-lab' ); ?>">
 			<?php

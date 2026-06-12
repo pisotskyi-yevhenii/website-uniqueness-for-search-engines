@@ -52,6 +52,15 @@
                     "required": 1
                 },
                 {
+                    "key": "field_devaccelerate_mobile_menu_close_label",
+                    "label": "Mobile Menu Close Label",
+                    "name": "devaccelerate_mobile_menu_close_label",
+                    "type": "text",
+                    "instructions": "Text shown while the mobile navigation is open.",
+                    "required": 1,
+                    "default_value": "Close console navigation"
+                },
+                {
                     "key": "field_devaccelerate_system_state",
                     "label": "System State",
                     "name": "devaccelerate_system_state",
@@ -424,5 +433,5 @@
     "active": true,
     "description": "All editable home, header, and footer content for the engineering AI learning product.",
     "show_in_rest": 0,
-    "modified": 1781269201
+    "modified": 1781275200
 }

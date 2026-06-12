@@ -333,6 +333,7 @@ final class DevAccelerate_Theme {
 				'devaccelerate_skip_label'         => 'Skip to engineering workflow',
 				'devaccelerate_mobile_menu_symbol' => '[+]',
 				'devaccelerate_mobile_menu_label'  => 'Open console navigation',
+				'devaccelerate_mobile_menu_close_label' => 'Close console navigation',
 				'devaccelerate_system_state'       => 'SYSTEM: READY',
 				'devaccelerate_footer_logo'        => $footer_logo_id,
 				'devaccelerate_copyright'          => '© 2026 DevAccelerate Engineering. Human-reviewed systems only.',
