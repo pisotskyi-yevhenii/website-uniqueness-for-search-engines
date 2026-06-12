@@ -11,6 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class DevAccelerate_Theme {
 	const VERSION = '2.0.0';
+	const CONTENT_VERSION = '2.0.0';
 
 	/**
 	 * Attach theme behavior.
@@ -49,6 +50,7 @@ final class DevAccelerate_Theme {
 		remove_action( 'wp_head', 'generate_pingback_header' );
 		remove_action( 'wp_head', 'generate_add_viewport', 1 );
 		remove_action( 'wp_head', 'wp_generator' );
+		remove_action( 'wp_footer', 'wp_print_speculation_rules' );
 	}
 
 	/**
@@ -170,7 +172,6 @@ final class DevAccelerate_Theme {
 		);
 
 		set_theme_mod( 'nav_menu_locations', $location_map );
-		delete_option( 'devaccelerate_panel_seeded' );
 	}
 
 	/**
@@ -220,16 +221,14 @@ final class DevAccelerate_Theme {
 	 */
 	private static function replace_menu( $name, $entries ) {
 		$menu = wp_get_nav_menu_object( $name );
-		if ( ! $menu ) {
-			$menu_id = wp_create_nav_menu( $name );
-			if ( is_wp_error( $menu_id ) ) {
-				return 0;
-			}
-		} else {
-			$menu_id = (int) $menu->term_id;
-			foreach ( (array) wp_get_nav_menu_items( $menu_id ) as $existing_item ) {
-				wp_delete_post( $existing_item->ID, true );
-			}
+
+		if ( $menu ) {
+			return (int) $menu->term_id;
+		}
+
+		$menu_id = wp_create_nav_menu( $name );
+		if ( is_wp_error( $menu_id ) ) {
+			return 0;
 		}
 
 		foreach ( $entries as $offset => $entry ) {
@@ -253,7 +252,7 @@ final class DevAccelerate_Theme {
 	 * Populate the engineering panel after Local JSON is available.
 	 */
 	public static function seed_panel() {
-		if ( ! function_exists( 'update_field' ) || get_option( 'devaccelerate_panel_seeded' ) ) {
+		if ( ! function_exists( 'update_field' ) || self::CONTENT_VERSION === get_option( 'devaccelerate_panel_seeded' ) ) {
 			return;
 		}
 
@@ -262,6 +261,33 @@ final class DevAccelerate_Theme {
 			return;
 		}
 
+		$header_logo_id = self::seed_image(
+			'devaccelerate-header-logo',
+			get_stylesheet_directory() . '/assets/images/devaccelerate-symbol.png',
+			'DevAccelerate Lab'
+		);
+		$footer_logo_id = self::seed_image(
+			'devaccelerate-footer-logo',
+			get_stylesheet_directory() . '/assets/images/devaccelerate-symbol-light.png',
+			'DevAccelerate Lab'
+		);
+
+		update_field(
+			'field_devaccelerate_site_chrome',
+			array(
+				'devaccelerate_header_logo'        => $header_logo_id,
+				'devaccelerate_header_tagline'     => 'AI SYSTEMS FOR SOFTWARE TEAMS',
+				'devaccelerate_skip_label'         => 'Skip to engineering workflow',
+				'devaccelerate_mobile_menu_symbol' => '[+]',
+				'devaccelerate_mobile_menu_label'  => 'Open console navigation',
+				'devaccelerate_system_state'       => 'SYSTEM: READY',
+				'devaccelerate_footer_logo'        => $footer_logo_id,
+				'devaccelerate_copyright'          => '© 2026 DevAccelerate Engineering. Human-reviewed systems only.',
+			),
+			$home_id
+		);
+
+		update_field( 'field_devaccelerate_panel_kicker', 'ENGINEERING ENABLEMENT / COURSE 02', $home_id );
 		update_field( 'field_devaccelerate_panel_title', 'Integrate AI into Real Development Workflows', $home_id );
 		update_field(
 			'field_devaccelerate_panel_description',
@@ -274,6 +300,24 @@ final class DevAccelerate_Theme {
 				'title'  => 'Inspect the workflow',
 				'url'    => '#',
 				'target' => '',
+			),
+			$home_id
+		);
+		update_field( 'field_devaccelerate_panel_cursor', '_', $home_id );
+		update_field( 'field_devaccelerate_command_symbol', '>', $home_id );
+		update_field(
+			'field_devaccelerate_runtime',
+			array(
+				'devaccelerate_runtime_filename'   => 'workflow.config',
+				'devaccelerate_runtime_status'     => 'ACTIVE',
+				'devaccelerate_runtime_key_one'    => 'agent.role',
+				'devaccelerate_runtime_value_one'  => 'implementation_assistant',
+				'devaccelerate_runtime_key_two'    => 'human.role',
+				'devaccelerate_runtime_value_two'  => 'decision_owner',
+				'devaccelerate_runtime_key_three'  => 'review.mode',
+				'devaccelerate_runtime_value_three' => 'required',
+				'devaccelerate_runtime_key_four'   => 'output.state',
+				'devaccelerate_runtime_value_four' => 'verified',
 			),
 			$home_id
 		);
@@ -295,8 +339,85 @@ final class DevAccelerate_Theme {
 		);
 		update_field( 'field_devaccelerate_show_matrix', 1, $home_id );
 		update_field( 'field_devaccelerate_accent', '#b7ff3c', $home_id );
+		update_field(
+			'field_devaccelerate_matrix',
+			array(
+				'devaccelerate_matrix_eyebrow'          => 'IMPLEMENTATION MATRIX',
+				'devaccelerate_matrix_title'            => 'A controlled path from tool trial to team workflow',
+				'devaccelerate_matrix_item_one_label'   => 'SELECT',
+				'devaccelerate_matrix_item_one_text'    => 'Match the tool to repository access, task risk, and review requirements.',
+				'devaccelerate_matrix_item_two_label'   => 'CONSTRAIN',
+				'devaccelerate_matrix_item_two_text'    => 'Define context, acceptance criteria, and the decisions that remain human-owned.',
+				'devaccelerate_matrix_item_three_label' => 'VERIFY',
+				'devaccelerate_matrix_item_three_text'  => 'Use tests, diffs, and manual review before generated work reaches the codebase.',
+			),
+			$home_id
+		);
+		update_field(
+			'field_devaccelerate_footer_prompt',
+			array(
+				'devaccelerate_footer_eyebrow'   => 'NEXT SYSTEM UPGRADE',
+				'devaccelerate_footer_title'     => 'Make AI part of the engineering process, not a shortcut around it.',
+				'devaccelerate_footer_link_label' => 'Open implementation notes',
+			),
+			$home_id
+		);
 
-		update_option( 'devaccelerate_panel_seeded', 1 );
+		update_option( 'devaccelerate_panel_seeded', self::CONTENT_VERSION );
+	}
+
+	/**
+	 * Register a bundled PNG in the Media Library once.
+	 *
+	 * @param string $asset_key Stable asset key.
+	 * @param string $source_path Theme image path.
+	 * @param string $alt_text Initial alternative text.
+	 * @return int
+	 */
+	private static function seed_image( $asset_key, $source_path, $alt_text ) {
+		$existing = get_posts(
+			array(
+				'post_type'      => 'attachment',
+				'post_status'    => 'inherit',
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+				'meta_key'       => '_devaccelerate_seed_asset',
+				'meta_value'     => $asset_key,
+			)
+		);
+
+		if ( $existing ) {
+			return (int) $existing[0];
+		}
+
+		if ( ! file_exists( $source_path ) ) {
+			return 0;
+		}
+
+		$upload = wp_upload_bits( basename( $source_path ), null, file_get_contents( $source_path ) );
+		if ( ! empty( $upload['error'] ) ) {
+			return 0;
+		}
+
+		$attachment_id = wp_insert_attachment(
+			array(
+				'post_mime_type' => 'image/png',
+				'post_title'     => sanitize_text_field( $alt_text ),
+				'post_status'    => 'inherit',
+			),
+			$upload['file']
+		);
+
+		if ( is_wp_error( $attachment_id ) ) {
+			return 0;
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+		wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+		update_post_meta( $attachment_id, '_wp_attachment_image_alt', $alt_text );
+		update_post_meta( $attachment_id, '_devaccelerate_seed_asset', $asset_key );
+
+		return (int) $attachment_id;
 	}
 
 	/**
@@ -315,6 +436,45 @@ final class DevAccelerate_Theme {
 		}
 
 		return $fallback;
+	}
+
+	/**
+	 * Normalize an ACF image value.
+	 *
+	 * @param mixed  $value ACF image value.
+	 * @param string $fallback_url Bundled fallback.
+	 * @param string $fallback_alt Bundled alt text.
+	 * @return array
+	 */
+	public static function image( $value, $fallback_url, $fallback_alt ) {
+		if ( is_array( $value ) && ! empty( $value['url'] ) ) {
+			return array(
+				'url' => $value['url'],
+				'alt' => ! empty( $value['alt'] ) ? $value['alt'] : $fallback_alt,
+			);
+		}
+
+		if ( is_numeric( $value ) ) {
+			$url = wp_get_attachment_image_url( (int) $value, 'full' );
+			if ( $url ) {
+				return array(
+					'url' => $url,
+					'alt' => get_post_meta( (int) $value, '_wp_attachment_image_alt', true ) ?: $fallback_alt,
+				);
+			}
+		}
+
+		if ( is_string( $value ) && filter_var( $value, FILTER_VALIDATE_URL ) ) {
+			return array(
+				'url' => $value,
+				'alt' => $fallback_alt,
+			);
+		}
+
+		return array(
+			'url' => $fallback_url,
+			'alt' => $fallback_alt,
+		);
 	}
 }
 

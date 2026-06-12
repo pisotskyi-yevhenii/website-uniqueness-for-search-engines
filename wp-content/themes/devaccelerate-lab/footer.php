@@ -8,16 +8,37 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+$devaccelerate_chrome = DevAccelerate_Theme::field(
+	'devaccelerate_site_chrome',
+	array(
+		'devaccelerate_footer_logo' => 0,
+		'devaccelerate_copyright'   => '© 2026 DevAccelerate Engineering. Human-reviewed systems only.',
+	)
+);
+$devaccelerate_footer_prompt = DevAccelerate_Theme::field(
+	'devaccelerate_footer_prompt',
+	array(
+		'devaccelerate_footer_eyebrow'    => 'NEXT SYSTEM UPGRADE',
+		'devaccelerate_footer_title'      => 'Make AI part of the engineering process, not a shortcut around it.',
+		'devaccelerate_footer_link_label' => 'Open implementation notes',
+	)
+);
+$devaccelerate_footer_logo = DevAccelerate_Theme::image(
+	$devaccelerate_chrome['devaccelerate_footer_logo'],
+	get_stylesheet_directory_uri() . '/assets/images/devaccelerate-symbol-light.svg',
+	'DevAccelerate Lab'
+);
 ?>
 <footer class="devaccelerate-footer">
 	<section class="devaccelerate-footer__prompt">
-		<p><?php esc_html_e( 'NEXT SYSTEM UPGRADE', 'devaccelerate-lab' ); ?></p>
-		<h2><?php esc_html_e( 'Make AI part of the engineering process, not a shortcut around it.', 'devaccelerate-lab' ); ?></h2>
-		<a href="#" aria-disabled="true" data-console-placeholder="true"><?php esc_html_e( 'Open implementation notes', 'devaccelerate-lab' ); ?></a>
+		<p><?php echo esc_html( $devaccelerate_footer_prompt['devaccelerate_footer_eyebrow'] ); ?></p>
+		<h2><?php echo esc_html( $devaccelerate_footer_prompt['devaccelerate_footer_title'] ); ?></h2>
+		<a href="#" aria-disabled="true" data-console-placeholder="true"><?php echo esc_html( $devaccelerate_footer_prompt['devaccelerate_footer_link_label'] ); ?></a>
 	</section>
 	<div class="devaccelerate-footer__links">
 		<div class="devaccelerate-footer__brand">
-			<img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/devaccelerate-symbol-light.svg' ); ?>" width="250" height="47" alt="<?php esc_attr_e( 'DevAccelerate Lab', 'devaccelerate-lab' ); ?>">
+			<img src="<?php echo esc_url( $devaccelerate_footer_logo['url'] ); ?>" width="250" height="47" alt="<?php echo esc_attr( $devaccelerate_footer_logo['alt'] ); ?>">
 		</div>
 		<nav aria-label="<?php esc_attr_e( 'Engineering resources', 'devaccelerate-lab' ); ?>">
 			<?php
@@ -45,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		</nav>
 	</div>
 	<div class="devaccelerate-footer__base">
-		<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php esc_html_e( 'DevAccelerate Engineering. Human-reviewed systems only.', 'devaccelerate-lab' ); ?></p>
+		<p><?php echo esc_html( $devaccelerate_chrome['devaccelerate_copyright'] ); ?></p>
 		<?php
 		wp_nav_menu(
 			array(

@@ -16,12 +16,16 @@ $hero = vibestart_academy_group(
 		'vibestart_hero_title'       => 'Build with AI Before You Learn to Code',
 		'vibestart_hero_description' => 'A practical starting point for turning plain-language ideas into useful digital projects with modern AI tools.',
 		'vibestart_hero_cta_label'   => 'Explore the beginner path',
+		'vibestart_prompt_label'      => 'YOUR IDEA',
+		'vibestart_prompt_text'       => 'Create a simple course page for people who have never written code.',
+		'vibestart_prompt_status'     => 'Ready to build',
 	)
 );
 
 $path = vibestart_academy_group(
 	'vibestart_learning_path',
 	array(
+		'vibestart_path_eyebrow'     => 'YOUR FIRST THREE STEPS',
 		'vibestart_path_title'       => 'A Simple Path from Idea to Prototype',
 		'vibestart_path_description' => 'Learn the repeatable habits that help non-programmers communicate with AI, improve outputs, and finish small working products.',
 	)
@@ -31,6 +35,7 @@ $cards = array(
 	vibestart_academy_group(
 		'vibestart_card_one',
 		array(
+			'vibestart_card_one_marker'      => '01',
 			'vibestart_card_one_title'       => 'Describe Your Idea',
 			'vibestart_card_one_description' => 'Turn a rough concept into a clear request that an AI coding tool can understand.',
 		)
@@ -38,6 +43,7 @@ $cards = array(
 	vibestart_academy_group(
 		'vibestart_card_two',
 		array(
+			'vibestart_card_two_marker'      => '02',
 			'vibestart_card_two_title'       => 'Guide the AI',
 			'vibestart_card_two_description' => 'Review each result, provide focused feedback, and keep the project aligned with your goal.',
 		)
@@ -45,6 +51,7 @@ $cards = array(
 	vibestart_academy_group(
 		'vibestart_card_three',
 		array(
+			'vibestart_card_three_marker'      => '03',
 			'vibestart_card_three_title'       => 'Launch a Working Prototype',
 			'vibestart_card_three_description' => 'Combine small verified steps into a simple project you can open, test, and share.',
 		)
@@ -65,28 +72,29 @@ get_header();
 		</div>
 		<div class="vibestart-hero__visual" aria-hidden="true">
 			<div class="vibestart-prompt-card">
-				<span class="vibestart-prompt-card__label">YOUR IDEA</span>
-				<p>Create a simple course page for people who have never written code.</p>
-				<div class="vibestart-prompt-card__status">Ready to build</div>
+				<span class="vibestart-prompt-card__label"><?php echo esc_html( $hero['vibestart_prompt_label'] ); ?></span>
+				<p><?php echo esc_html( $hero['vibestart_prompt_text'] ); ?></p>
+				<div class="vibestart-prompt-card__status"><?php echo esc_html( $hero['vibestart_prompt_status'] ); ?></div>
 			</div>
 		</div>
 	</section>
 
 	<section class="vibestart-learning-path">
 		<div class="vibestart-section-heading">
-			<p class="vibestart-eyebrow"><?php esc_html_e( 'YOUR FIRST THREE STEPS', 'vibestart-academy' ); ?></p>
+			<p class="vibestart-eyebrow"><?php echo esc_html( $path['vibestart_path_eyebrow'] ); ?></p>
 			<h2><?php echo esc_html( $path['vibestart_path_title'] ); ?></h2>
 			<p><?php echo esc_html( $path['vibestart_path_description'] ); ?></p>
 		</div>
 		<div class="vibestart-card-grid">
 			<?php foreach ( $cards as $index => $card ) : ?>
 				<?php
-				$number = $index + 1;
-				$title_key = 'vibestart_card_' . array( 'one', 'two', 'three' )[ $index ] . '_title';
-				$description_key = 'vibestart_card_' . array( 'one', 'two', 'three' )[ $index ] . '_description';
+				$word = array( 'one', 'two', 'three' )[ $index ];
+				$marker_key = 'vibestart_card_' . $word . '_marker';
+				$title_key = 'vibestart_card_' . $word . '_title';
+				$description_key = 'vibestart_card_' . $word . '_description';
 				?>
 				<article class="vibestart-step-card">
-					<span class="vibestart-step-card__number"><?php echo esc_html( str_pad( (string) $number, 2, '0', STR_PAD_LEFT ) ); ?></span>
+					<span class="vibestart-step-card__number"><?php echo esc_html( $card[ $marker_key ] ); ?></span>
 					<h3><?php echo esc_html( $card[ $title_key ] ); ?></h3>
 					<p><?php echo esc_html( $card[ $description_key ] ); ?></p>
 				</article>

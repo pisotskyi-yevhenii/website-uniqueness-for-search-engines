@@ -10,6 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'VIBESTART_ACADEMY_VERSION', '1.0.0' );
+define( 'VIBESTART_ACADEMY_CONTENT_VERSION', '2.0.0' );
 
 add_action( 'after_setup_theme', 'vibestart_academy_setup', 20 );
 /**
@@ -37,6 +38,7 @@ function vibestart_academy_setup() {
 	remove_action( 'wp_head', 'generate_pingback_header' );
 	remove_action( 'wp_head', 'generate_add_viewport', 1 );
 	remove_action( 'wp_head', 'wp_generator' );
+	remove_action( 'wp_footer', 'wp_print_speculation_rules' );
 }
 
 add_filter( 'the_generator', '__return_empty_string' );
@@ -183,7 +185,6 @@ function vibestart_academy_initialize_site() {
 	);
 
 	set_theme_mod( 'nav_menu_locations', $locations );
-	delete_option( 'vibestart_academy_acf_seeded' );
 }
 
 /**
@@ -235,16 +236,13 @@ function vibestart_academy_prepare_home_page() {
 function vibestart_academy_build_menu( $menu_name, $labels ) {
 	$menu = wp_get_nav_menu_object( $menu_name );
 
-	if ( ! $menu ) {
-		$menu_id = wp_create_nav_menu( $menu_name );
-		if ( is_wp_error( $menu_id ) ) {
-			return 0;
-		}
-	} else {
-		$menu_id = (int) $menu->term_id;
-		foreach ( (array) wp_get_nav_menu_items( $menu_id ) as $item ) {
-			wp_delete_post( $item->ID, true );
-		}
+	if ( $menu ) {
+		return (int) $menu->term_id;
+	}
+
+	$menu_id = wp_create_nav_menu( $menu_name );
+	if ( is_wp_error( $menu_id ) ) {
+		return 0;
 	}
 
 	foreach ( $labels as $position => $label ) {
@@ -269,7 +267,7 @@ add_action( 'acf/init', 'vibestart_academy_seed_acf_values', 20 );
  * Store editable starter content after ACF has loaded the local JSON group.
  */
 function vibestart_academy_seed_acf_values() {
-	if ( ! function_exists( 'update_field' ) || get_option( 'vibestart_academy_acf_seeded' ) ) {
+	if ( ! function_exists( 'update_field' ) || VIBESTART_ACADEMY_CONTENT_VERSION === get_option( 'vibestart_academy_acf_seeded' ) ) {
 		return;
 	}
 
@@ -278,6 +276,33 @@ function vibestart_academy_seed_acf_values() {
 		return;
 	}
 
+	$header_logo_id = vibestart_academy_seed_image(
+		'vibestart-header-logo',
+		get_stylesheet_directory() . '/assets/images/vibestart-mark.png',
+		'VibeStart Academy'
+	);
+	$footer_logo_id = vibestart_academy_seed_image(
+		'vibestart-footer-logo',
+		get_stylesheet_directory() . '/assets/images/vibestart-mark-light.png',
+		'VibeStart Academy'
+	);
+
+	update_field(
+		'field_vibestart_site_chrome',
+		array(
+			'vibestart_header_logo'            => $header_logo_id,
+			'vibestart_footer_logo'            => $footer_logo_id,
+			'vibestart_skip_label'             => 'Skip to course overview',
+			'vibestart_mobile_menu_label'      => 'Menu',
+			'vibestart_footer_description'     => 'A friendly first step into building useful projects with AI.',
+			'vibestart_footer_navigation_title' => 'Navigation',
+			'vibestart_footer_social_title'    => 'Social',
+			'vibestart_footer_legal_title'     => 'Legal',
+			'vibestart_copyright'              => '© 2026 VibeStart Learning. Start small, build clearly.',
+		),
+		$home_id
+	);
+
 	update_field(
 		'field_vibestart_hero',
 		array(
@@ -285,6 +310,9 @@ function vibestart_academy_seed_acf_values() {
 			'vibestart_hero_title'       => 'Build with AI Before You Learn to Code',
 			'vibestart_hero_description' => 'A practical starting point for turning plain-language ideas into useful digital projects with modern AI tools.',
 			'vibestart_hero_cta_label'   => 'Explore the beginner path',
+			'vibestart_prompt_label'      => 'YOUR IDEA',
+			'vibestart_prompt_text'       => 'Create a simple course page for people who have never written code.',
+			'vibestart_prompt_status'     => 'Ready to build',
 		),
 		$home_id
 	);
@@ -292,6 +320,7 @@ function vibestart_academy_seed_acf_values() {
 	update_field(
 		'field_vibestart_learning_path',
 		array(
+			'vibestart_path_eyebrow'     => 'YOUR FIRST THREE STEPS',
 			'vibestart_path_title'       => 'A Simple Path from Idea to Prototype',
 			'vibestart_path_description' => 'Learn the repeatable habits that help non-programmers communicate with AI, improve outputs, and finish small working products.',
 		),
@@ -300,14 +329,17 @@ function vibestart_academy_seed_acf_values() {
 
 	$cards = array(
 		'field_vibestart_card_one' => array(
+			'vibestart_card_one_marker'      => '01',
 			'vibestart_card_one_title'       => 'Describe Your Idea',
 			'vibestart_card_one_description' => 'Turn a rough concept into a clear request that an AI coding tool can understand.',
 		),
 		'field_vibestart_card_two' => array(
+			'vibestart_card_two_marker'      => '02',
 			'vibestart_card_two_title'       => 'Guide the AI',
 			'vibestart_card_two_description' => 'Review each result, provide focused feedback, and keep the project aligned with your goal.',
 		),
 		'field_vibestart_card_three' => array(
+			'vibestart_card_three_marker'      => '03',
 			'vibestart_card_three_title'       => 'Launch a Working Prototype',
 			'vibestart_card_three_description' => 'Combine small verified steps into a simple project you can open, test, and share.',
 		),
@@ -317,7 +349,61 @@ function vibestart_academy_seed_acf_values() {
 		update_field( $field_key, $value, $home_id );
 	}
 
-	update_option( 'vibestart_academy_acf_seeded', 1 );
+	update_option( 'vibestart_academy_acf_seeded', VIBESTART_ACADEMY_CONTENT_VERSION );
+}
+
+/**
+ * Register a bundled image in the Media Library once.
+ *
+ * @param string $asset_key Stable asset key.
+ * @param string $source_path Theme image path.
+ * @param string $alt_text Initial alternative text.
+ * @return int
+ */
+function vibestart_academy_seed_image( $asset_key, $source_path, $alt_text ) {
+	$existing = get_posts(
+		array(
+			'post_type'      => 'attachment',
+			'post_status'    => 'inherit',
+			'posts_per_page' => 1,
+			'fields'         => 'ids',
+			'meta_key'       => '_vibestart_seed_asset',
+			'meta_value'     => $asset_key,
+		)
+	);
+
+	if ( $existing ) {
+		return (int) $existing[0];
+	}
+
+	if ( ! file_exists( $source_path ) ) {
+		return 0;
+	}
+
+	$upload = wp_upload_bits( basename( $source_path ), null, file_get_contents( $source_path ) );
+	if ( ! empty( $upload['error'] ) ) {
+		return 0;
+	}
+
+	$attachment_id = wp_insert_attachment(
+		array(
+			'post_mime_type' => 'image/png',
+			'post_title'     => sanitize_text_field( $alt_text ),
+			'post_status'    => 'inherit',
+		),
+		$upload['file']
+	);
+
+	if ( is_wp_error( $attachment_id ) ) {
+		return 0;
+	}
+
+	require_once ABSPATH . 'wp-admin/includes/image.php';
+	wp_update_attachment_metadata( $attachment_id, wp_generate_attachment_metadata( $attachment_id, $upload['file'] ) );
+	update_post_meta( $attachment_id, '_wp_attachment_image_alt', $alt_text );
+	update_post_meta( $attachment_id, '_vibestart_seed_asset', $asset_key );
+
+	return (int) $attachment_id;
 }
 
 /**
@@ -336,4 +422,61 @@ function vibestart_academy_group( $name, $fallback ) {
 	}
 
 	return $fallback;
+}
+
+/**
+ * Return a single editable ACF value.
+ *
+ * @param string $name Field name.
+ * @param mixed  $fallback Default value.
+ * @return mixed
+ */
+function vibestart_academy_field( $name, $fallback ) {
+	if ( function_exists( 'get_field' ) ) {
+		$value = get_field( $name );
+		if ( false !== $value && null !== $value && '' !== $value ) {
+			return $value;
+		}
+	}
+
+	return $fallback;
+}
+
+/**
+ * Normalize an ACF image value for templates.
+ *
+ * @param mixed  $value Image array, attachment ID, or URL.
+ * @param string $fallback_url Bundled fallback URL.
+ * @param string $fallback_alt Bundled fallback alt text.
+ * @return array
+ */
+function vibestart_academy_image( $value, $fallback_url, $fallback_alt ) {
+	if ( is_array( $value ) && ! empty( $value['url'] ) ) {
+		return array(
+			'url' => $value['url'],
+			'alt' => ! empty( $value['alt'] ) ? $value['alt'] : $fallback_alt,
+		);
+	}
+
+	if ( is_numeric( $value ) ) {
+		$url = wp_get_attachment_image_url( (int) $value, 'full' );
+		if ( $url ) {
+			return array(
+				'url' => $url,
+				'alt' => get_post_meta( (int) $value, '_wp_attachment_image_alt', true ) ?: $fallback_alt,
+			);
+		}
+	}
+
+	if ( is_string( $value ) && filter_var( $value, FILTER_VALIDATE_URL ) ) {
+		return array(
+			'url' => $value,
+			'alt' => $fallback_alt,
+		);
+	}
+
+	return array(
+		'url' => $fallback_url,
+		'alt' => $fallback_alt,
+	);
 }

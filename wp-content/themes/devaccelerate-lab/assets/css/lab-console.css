@@ -158,9 +158,8 @@ body.devaccelerate-engineering-console img {
 	letter-spacing: -0.055em;
 }
 
-.devaccelerate-panel h1::after {
+.devaccelerate-cursor {
 	color: var(--devaccelerate-accent);
-	content: "_";
 }
 
 .devaccelerate-panel__description {

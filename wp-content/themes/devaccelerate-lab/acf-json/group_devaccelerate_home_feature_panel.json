@@ -3,12 +3,104 @@
     "title": "DevAccelerate Home Feature Panel",
     "fields": [
         {
+            "key": "field_devaccelerate_site_chrome",
+            "label": "Header and Footer",
+            "name": "devaccelerate_site_chrome",
+            "type": "group",
+            "instructions": "Branding and interface labels shown outside the main course panel.",
+            "required": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_devaccelerate_header_logo",
+                    "label": "Header Logo",
+                    "name": "devaccelerate_header_logo",
+                    "type": "image",
+                    "required": 1,
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "mime_types": "jpg,jpeg,png,webp,svg"
+                },
+                {
+                    "key": "field_devaccelerate_header_tagline",
+                    "label": "Header Tagline",
+                    "name": "devaccelerate_header_tagline",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_skip_label",
+                    "label": "Skip Link Label",
+                    "name": "devaccelerate_skip_label",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_mobile_menu_symbol",
+                    "label": "Mobile Menu Symbol",
+                    "name": "devaccelerate_mobile_menu_symbol",
+                    "type": "text",
+                    "required": 1,
+                    "maxlength": 8
+                },
+                {
+                    "key": "field_devaccelerate_mobile_menu_label",
+                    "label": "Mobile Menu Label",
+                    "name": "devaccelerate_mobile_menu_label",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_system_state",
+                    "label": "System State",
+                    "name": "devaccelerate_system_state",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_footer_logo",
+                    "label": "Footer Logo",
+                    "name": "devaccelerate_footer_logo",
+                    "type": "image",
+                    "required": 1,
+                    "return_format": "array",
+                    "preview_size": "medium",
+                    "library": "all",
+                    "mime_types": "jpg,jpeg,png,webp,svg"
+                },
+                {
+                    "key": "field_devaccelerate_copyright",
+                    "label": "Copyright",
+                    "name": "devaccelerate_copyright",
+                    "type": "text",
+                    "required": 1
+                }
+            ]
+        },
+        {
+            "key": "field_devaccelerate_panel_kicker",
+            "label": "Panel Kicker",
+            "name": "devaccelerate_panel_kicker",
+            "type": "text",
+            "instructions": "Small course identifier above the main heading.",
+            "required": 1
+        },
+        {
             "key": "field_devaccelerate_panel_title",
             "label": "Panel Title",
             "name": "devaccelerate_panel_title",
             "type": "text",
             "instructions": "Primary engineering course message.",
             "required": 1
+        },
+        {
+            "key": "field_devaccelerate_panel_cursor",
+            "label": "Title Cursor Symbol",
+            "name": "devaccelerate_panel_cursor",
+            "type": "text",
+            "required": 1,
+            "maxlength": 4
         },
         {
             "key": "field_devaccelerate_panel_description",
@@ -25,9 +117,98 @@
             "label": "Primary Resource",
             "name": "devaccelerate_primary_resource",
             "type": "link",
-            "instructions": "Demonstration resource label. The front end intentionally disables navigation.",
+            "instructions": "The label is displayed while navigation remains intentionally disabled.",
             "required": 0,
             "return_format": "array"
+        },
+        {
+            "key": "field_devaccelerate_command_symbol",
+            "label": "Command Symbol",
+            "name": "devaccelerate_command_symbol",
+            "type": "text",
+            "required": 1,
+            "maxlength": 4
+        },
+        {
+            "key": "field_devaccelerate_runtime",
+            "label": "Runtime Card",
+            "name": "devaccelerate_runtime",
+            "type": "group",
+            "instructions": "Editable labels and values in the workflow configuration card.",
+            "required": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_devaccelerate_runtime_filename",
+                    "label": "File Name",
+                    "name": "devaccelerate_runtime_filename",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_status",
+                    "label": "Status",
+                    "name": "devaccelerate_runtime_status",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_key_one",
+                    "label": "Row One Key",
+                    "name": "devaccelerate_runtime_key_one",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_value_one",
+                    "label": "Row One Value",
+                    "name": "devaccelerate_runtime_value_one",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_key_two",
+                    "label": "Row Two Key",
+                    "name": "devaccelerate_runtime_key_two",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_value_two",
+                    "label": "Row Two Value",
+                    "name": "devaccelerate_runtime_value_two",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_key_three",
+                    "label": "Row Three Key",
+                    "name": "devaccelerate_runtime_key_three",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_value_three",
+                    "label": "Row Three Value",
+                    "name": "devaccelerate_runtime_value_three",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_key_four",
+                    "label": "Row Four Key",
+                    "name": "devaccelerate_runtime_key_four",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_runtime_value_four",
+                    "label": "Row Four Value",
+                    "name": "devaccelerate_runtime_value_four",
+                    "type": "text",
+                    "required": 1
+                }
+            ]
         },
         {
             "key": "field_devaccelerate_metric_one",
@@ -114,6 +295,113 @@
             "default_value": "#b7ff3c",
             "enable_opacity": 0,
             "return_format": "string"
+        },
+        {
+            "key": "field_devaccelerate_matrix",
+            "label": "Implementation Matrix",
+            "name": "devaccelerate_matrix",
+            "type": "group",
+            "instructions": "Heading and all three workflow rows.",
+            "required": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_devaccelerate_matrix_eyebrow",
+                    "label": "Eyebrow",
+                    "name": "devaccelerate_matrix_eyebrow",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_matrix_title",
+                    "label": "Title",
+                    "name": "devaccelerate_matrix_title",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_matrix_item_one_label",
+                    "label": "Item One Label",
+                    "name": "devaccelerate_matrix_item_one_label",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_matrix_item_one_text",
+                    "label": "Item One Text",
+                    "name": "devaccelerate_matrix_item_one_text",
+                    "type": "textarea",
+                    "required": 1,
+                    "rows": 2,
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_devaccelerate_matrix_item_two_label",
+                    "label": "Item Two Label",
+                    "name": "devaccelerate_matrix_item_two_label",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_matrix_item_two_text",
+                    "label": "Item Two Text",
+                    "name": "devaccelerate_matrix_item_two_text",
+                    "type": "textarea",
+                    "required": 1,
+                    "rows": 2,
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_devaccelerate_matrix_item_three_label",
+                    "label": "Item Three Label",
+                    "name": "devaccelerate_matrix_item_three_label",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_matrix_item_three_text",
+                    "label": "Item Three Text",
+                    "name": "devaccelerate_matrix_item_three_text",
+                    "type": "textarea",
+                    "required": 1,
+                    "rows": 2,
+                    "new_lines": ""
+                }
+            ]
+        },
+        {
+            "key": "field_devaccelerate_footer_prompt",
+            "label": "Footer CTA",
+            "name": "devaccelerate_footer_prompt",
+            "type": "group",
+            "instructions": "Editable call to action above the footer links.",
+            "required": 0,
+            "layout": "block",
+            "sub_fields": [
+                {
+                    "key": "field_devaccelerate_footer_eyebrow",
+                    "label": "Eyebrow",
+                    "name": "devaccelerate_footer_eyebrow",
+                    "type": "text",
+                    "required": 1
+                },
+                {
+                    "key": "field_devaccelerate_footer_title",
+                    "label": "Title",
+                    "name": "devaccelerate_footer_title",
+                    "type": "textarea",
+                    "required": 1,
+                    "rows": 2,
+                    "new_lines": ""
+                },
+                {
+                    "key": "field_devaccelerate_footer_link_label",
+                    "label": "Link Label",
+                    "name": "devaccelerate_footer_link_label",
+                    "type": "text",
+                    "required": 1
+                }
+            ]
         }
     ],
     "location": [
@@ -134,7 +422,7 @@
         "the_content"
     ],
     "active": true,
-    "description": "Engineering workflow panel with metrics, a resource link, a visibility switch, and a color control.",
+    "description": "All editable home, header, and footer content for the engineering AI learning product.",
     "show_in_rest": 0,
-    "modified": 1781265601
+    "modified": 1781269201
 }
