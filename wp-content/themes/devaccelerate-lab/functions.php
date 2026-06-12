@@ -144,14 +144,21 @@ final class DevAccelerate_Theme {
 			return;
 		}
 
-		$foreign_group = get_page_by_path( 'group_vibestart_home_showcase', OBJECT, 'acf-field-group' );
-		if ( ! $foreign_group instanceof WP_Post ) {
+		$foreign_group_ids = get_posts(
+			array(
+				'post_type'      => 'acf-field-group',
+				'post_status'    => array( 'publish', 'acf-disabled', 'trash' ),
+				'posts_per_page' => -1,
+				'fields'         => 'ids',
+				'name'           => 'group_vibestart_home_showcase',
+			)
+		);
+		if ( ! $foreign_group_ids ) {
 			return;
 		}
 
-		$excluded   = array_filter( array_map( 'absint', (array) $query->get( 'post__not_in' ) ) );
-		$excluded[] = (int) $foreign_group->ID;
-		$query->set( 'post__not_in', array_unique( $excluded ) );
+		$excluded = array_filter( array_map( 'absint', (array) $query->get( 'post__not_in' ) ) );
+		$query->set( 'post__not_in', array_unique( array_merge( $excluded, array_map( 'absint', $foreign_group_ids ) ) ) );
 	}
 
 	/**
