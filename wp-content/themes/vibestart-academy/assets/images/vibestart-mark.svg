@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="218" height="52" viewBox="0 0 218 52" role="img" aria-labelledby="title">
+  <title id="title">VibeStart Academy</title>
+  <rect width="52" height="52" rx="16" fill="#5136c9"/>
+  <path d="M14 16h7l5 18 5-18h7L29.5 40h-7L14 16Z" fill="#fff7e8"/>
+  <circle cx="39" cy="13" r="5" fill="#ff6b5f"/>
+  <text x="66" y="24" fill="#24164f" font-family="Arial, sans-serif" font-size="18" font-weight="800">VibeStart</text>
+  <text x="66" y="41" fill="#5136c9" font-family="Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="2">ACADEMY</text>
+</svg>

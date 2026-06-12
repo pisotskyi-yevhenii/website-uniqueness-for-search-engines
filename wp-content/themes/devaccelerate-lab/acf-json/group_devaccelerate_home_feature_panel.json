@@ -1,0 +1,140 @@
+{
+    "key": "group_devaccelerate_home_feature_panel",
+    "title": "DevAccelerate Home Feature Panel",
+    "fields": [
+        {
+            "key": "field_devaccelerate_panel_title",
+            "label": "Panel Title",
+            "name": "devaccelerate_panel_title",
+            "type": "text",
+            "instructions": "Primary engineering course message.",
+            "required": 1
+        },
+        {
+            "key": "field_devaccelerate_panel_description",
+            "label": "Panel Description",
+            "name": "devaccelerate_panel_description",
+            "type": "textarea",
+            "instructions": "Short explanation of the workflow course.",
+            "required": 1,
+            "rows": 4,
+            "new_lines": ""
+        },
+        {
+            "key": "field_devaccelerate_primary_resource",
+            "label": "Primary Resource",
+            "name": "devaccelerate_primary_resource",
+            "type": "link",
+            "instructions": "Demonstration resource label. The front end intentionally disables navigation.",
+            "required": 0,
+            "return_format": "array"
+        },
+        {
+            "key": "field_devaccelerate_metric_one",
+            "label": "Metric One",
+            "name": "devaccelerate_metric_one",
+            "type": "group",
+            "instructions": "Structural course marker, not a performance claim.",
+            "required": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_devaccelerate_metric_one_value",
+                    "label": "Value",
+                    "name": "devaccelerate_metric_one_value",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "25"
+                    }
+                },
+                {
+                    "key": "field_devaccelerate_metric_one_label",
+                    "label": "Label",
+                    "name": "devaccelerate_metric_one_label",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "75"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "field_devaccelerate_metric_two",
+            "label": "Metric Two",
+            "name": "devaccelerate_metric_two",
+            "type": "group",
+            "instructions": "Second structural course marker.",
+            "required": 0,
+            "layout": "table",
+            "sub_fields": [
+                {
+                    "key": "field_devaccelerate_metric_two_value",
+                    "label": "Value",
+                    "name": "devaccelerate_metric_two_value",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "25"
+                    }
+                },
+                {
+                    "key": "field_devaccelerate_metric_two_label",
+                    "label": "Label",
+                    "name": "devaccelerate_metric_two_label",
+                    "type": "text",
+                    "required": 1,
+                    "wrapper": {
+                        "width": "75"
+                    }
+                }
+            ]
+        },
+        {
+            "key": "field_devaccelerate_show_matrix",
+            "label": "Show Tool Matrix",
+            "name": "devaccelerate_show_matrix",
+            "type": "true_false",
+            "instructions": "Controls the workflow matrix section.",
+            "required": 0,
+            "message": "Display the implementation matrix",
+            "default_value": 1,
+            "ui": 1,
+            "ui_on_text": "Shown",
+            "ui_off_text": "Hidden"
+        },
+        {
+            "key": "field_devaccelerate_accent",
+            "label": "Accent Color",
+            "name": "devaccelerate_accent",
+            "type": "color_picker",
+            "instructions": "Controls the panel command and status accent.",
+            "required": 0,
+            "default_value": "#b7ff3c",
+            "enable_opacity": 0,
+            "return_format": "string"
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "left",
+    "instruction_placement": "field",
+    "hide_on_screen": [
+        "the_content"
+    ],
+    "active": true,
+    "description": "Engineering workflow panel with metrics, a resource link, a visibility switch, and a color control.",
+    "show_in_rest": 0,
+    "modified": 1781265601
+}

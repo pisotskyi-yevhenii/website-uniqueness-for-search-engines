@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="250" height="47" viewBox="0 0 310 58" role="img" aria-labelledby="title">
+  <title id="title">DevAccelerate Lab</title>
+  <rect x="1" y="1" width="56" height="56" fill="#101416" stroke="#b7ff3c" stroke-width="2"/>
+  <path d="m14 19 9 10-9 10M43 19 34 29l9 10M28 15l-5 28" fill="none" stroke="#53ddeb" stroke-width="4" stroke-linecap="square"/>
+  <text x="72" y="27" fill="#f3f7f5" font-family="Consolas, monospace" font-size="20" font-weight="700">DevAccelerate</text>
+  <text x="72" y="46" fill="#53ddeb" font-family="Consolas, monospace" font-size="13" font-weight="700" letter-spacing="4">LAB</text>
+</svg>

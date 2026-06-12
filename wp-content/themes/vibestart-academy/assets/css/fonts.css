@@ -1,0 +1,15 @@
+@font-face {
+	font-family: "Fraunces Local";
+	font-style: normal;
+	font-weight: 600 700;
+	font-display: swap;
+	src: url("../fonts/fraunces-latin.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Nunito Sans Local";
+	font-style: normal;
+	font-weight: 400 800;
+	font-display: swap;
+	src: url("../fonts/nunito-sans-latin.woff2") format("woff2");
+}
