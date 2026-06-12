@@ -55,6 +55,10 @@ $devaccelerate_header_logo = DevAccelerate_Theme::image(
 			<span class="devaccelerate-nav-toggle__label"><?php echo esc_html( $devaccelerate_chrome['devaccelerate_mobile_menu_label'] ); ?></span>
 		</button>
 		<nav class="devaccelerate-console-nav" aria-label="<?php esc_attr_e( 'Console navigation', 'devaccelerate-lab' ); ?>">
+			<button class="devaccelerate-console-nav__close" type="button">
+				<span aria-hidden="true">[-]</span>
+				<?php echo esc_html( $devaccelerate_chrome['devaccelerate_mobile_menu_close_label'] ); ?>
+			</button>
 			<?php
 			wp_nav_menu(
 				array(

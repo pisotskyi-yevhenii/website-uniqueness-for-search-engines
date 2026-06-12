@@ -121,6 +121,10 @@ body.devaccelerate-engineering-console img {
 	font: 600 12px/1.2 var(--devaccelerate-mono);
 }
 
+.devaccelerate-console-nav__close {
+	display: none;
+}
+
 .devaccelerate-main {
 	--devaccelerate-accent: var(--devaccelerate-lime);
 }
@@ -421,6 +425,18 @@ body.devaccelerate-engineering-console img {
 
 	.devaccelerate-console-nav.is-open {
 		display: block;
+	}
+
+	.devaccelerate-console-nav__close {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin: 0 0 24px;
+		padding: 10px 12px;
+		border: 1px solid var(--devaccelerate-lime);
+		background: transparent;
+		color: var(--devaccelerate-lime);
+		font: 600 12px/1.2 var(--devaccelerate-mono);
 	}
 
 	.devaccelerate-console-menu {
