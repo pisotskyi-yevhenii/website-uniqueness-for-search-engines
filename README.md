@@ -16,17 +16,24 @@ Both themes use the same educational domain but target different audiences:
 Links to 2 websites
 
 1) **DevAccelerate Lab**
+
 	https://fast-team.s6-tastewp.com
-	https://fast-team.s6-tastewp.com/wp-admin/
+
+	https://fast-team.s6-tastewp.com/wp-admin
 	
 	U: admin-ai
+
 	P: admin-ai
 
-2) **VibeStart Academy**	
+
+2) **VibeStart Academy**
+
 	https://vibestartacadem.s2-tastewp.com
+   
 	https://vibestartacadem.s2-tastewp.com/wp-admin/
 	
 	U: admin-ai
+
 	P: admin-ai
 
 ### Requirements
